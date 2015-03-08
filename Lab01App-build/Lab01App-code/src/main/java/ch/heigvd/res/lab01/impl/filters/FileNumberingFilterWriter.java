@@ -1,5 +1,6 @@
 package ch.heigvd.res.lab01.impl.filters;
 
+import ch.heigvd.res.lab01.impl.Utils;
 import java.io.FilterWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -25,17 +26,30 @@ public class FileNumberingFilterWriter extends FilterWriter {
 
   @Override
   public void write(String str, int off, int len) throws IOException {
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+    //throw new UnsupportedOperationException("The student has not implemented this method yet.");
+    String[] tmp = new String[2];
+    tmp[1] = str;
+    String toSend = "";
+    int i = 1;
+    do{
+       tmp = Utils.getNextLine(tmp[1]);
+       toSend += i + '\t' + tmp[0];
+       i++;
+    }while(!tmp[0].isEmpty());
+    
+    out.write(toSend, off, len);
   }
 
   @Override
   public void write(char[] cbuf, int off, int len) throws IOException {
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+    //throw new UnsupportedOperationException("The student has not implemented this method yet.");
+     write(new String(cbuf), off, len);
   }
 
   @Override
   public void write(int c) throws IOException {
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+    //throw new UnsupportedOperationException("The student has not implemented this method yet.");
+     write((char)c + "", 0, 1);
   }
 
 }
