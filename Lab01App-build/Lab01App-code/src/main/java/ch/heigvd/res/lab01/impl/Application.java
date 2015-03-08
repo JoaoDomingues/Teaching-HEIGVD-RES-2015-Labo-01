@@ -127,9 +127,8 @@ public class Application implements IApplication {
     * @throws IOException
     */
    void storeQuote(Quote quote, String filename) throws IOException {
-      //throw new UnsupportedOperationException("The student has not implemented this method yet.");
       String directory = WORKSPACE_DIRECTORY;
-      //récupere le chemin de répertoire
+      //récupere le répertoire où devra se trouver le fichier
       for (String tag : quote.getTags()) {
          directory += '/' + tag;
       }
