@@ -20,11 +20,10 @@ public class Utils {
     * not contain any line separator, then the first element is an empty string.
     */
    public static String[] getNextLine(String lines) {
-      //throw new UnsupportedOperationException("The student has not implemented this method yet.");
-
       // cherche la première occurence de \r ou \n
       for (int i = 0; i < lines.toCharArray().length; i++) {
          char c = lines.toCharArray()[i];
+         
          if (i + 1 < lines.toCharArray().length && c == '\r' && lines.toCharArray()[i + 1] == '\n') {
             return new String[]{
                lines.substring(0, i + 2),
