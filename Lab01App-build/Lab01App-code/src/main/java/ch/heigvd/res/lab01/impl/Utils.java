@@ -21,10 +21,10 @@ public class Utils {
     */
    public static String[] getNextLine(String lines) {
       // cherche la première occurence de \r ou \n
-      for (int i = 0; i < lines.toCharArray().length; i++) {
-         char c = lines.toCharArray()[i];
+      for (int i = 0; i < lines.length(); i++) {
+         char c = lines.charAt(i);
          
-         if (i + 1 < lines.toCharArray().length && c == '\r' && lines.toCharArray()[i + 1] == '\n') {
+         if (i + 1 < lines.length() && c == '\r' && lines.charAt(i + 1) == '\n') {
             return new String[]{
                lines.substring(0, i + 2),
                lines.substring(i + 2)};

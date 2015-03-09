@@ -10,6 +10,8 @@ import ch.heigvd.res.lab01.quotes.Quote;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.FilterWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
@@ -132,10 +134,15 @@ public class Application implements IApplication {
       for (String tag : quote.getTags()) {
          directory += '/' + tag;
       }
+      //crée les répértoire s'il n'existe pas
       new File(directory).mkdirs();
+      //crée le fichier
       File file = new File(directory + '/' + filename);
       file.createNewFile();
-
+      //écris dans le fichier précédement crée
+      FileWriter writer = new FileWriter(file);
+      writer.write(quote.getQuote());
+      writer.close();
    }
 
    /**
@@ -152,11 +159,16 @@ public class Application implements IApplication {
              * of the the IFileVisitor interface inline. You just have to add the body of the visit method, which should
              * be pretty easy (we want to write the filename, including the path, to the writer passed in argument).
              */
+            try {
+               writer.write(file.getPath().replace('\\', '/') + '\n');
+            } catch (IOException e) {}
          }
       });
+
    }
 
    @Override
+
    public String getAuthorEmail() {
       return "joo.dominguespedrosa@heig-vd.ch";
    }
