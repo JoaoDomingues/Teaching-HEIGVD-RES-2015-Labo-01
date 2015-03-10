@@ -140,8 +140,9 @@ public class Application implements IApplication {
       File file = new File(directory + '/' + filename);
       file.createNewFile();
       //écris dans le fichier précédement crée
-      FileWriter writer = new FileWriter(file);
+      Writer writer = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
       writer.write(quote.getQuote());
+      writer.flush();
       writer.close();
    }
 
@@ -161,7 +162,9 @@ public class Application implements IApplication {
              */
             try {
                writer.write(file.getPath().replace('\\', '/') + '\n');
-            } catch (IOException e) {}
+            } catch (IOException ex) {
+               LOG.log(Level.SEVERE, null, ex);
+            }
          }
       });
 

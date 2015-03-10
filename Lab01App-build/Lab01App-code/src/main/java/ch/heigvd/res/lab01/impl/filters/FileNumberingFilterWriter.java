@@ -19,9 +19,11 @@ public class FileNumberingFilterWriter extends FilterWriter {
 
    private static final Logger LOG = Logger.getLogger(FileNumberingFilterWriter.class.getName());
    private int nbLine;
+   private boolean isLastBackslachR = false;
 
    public FileNumberingFilterWriter(Writer out) {
       super(out);
+      
    }
 
    @Override
@@ -53,12 +55,15 @@ public class FileNumberingFilterWriter extends FilterWriter {
    @Override
    public void write(int c) throws IOException {
       //laisse un doute quand un \r et rentré, car un \n peut être écris juste aprés
-      if (out.toString().length() > 0 && c == '\r' && out.toString().charAt(out.toString().length() - 1) != '\r') {
+      if (c == '\r' && !isLastBackslachR) {
+         isLastBackslachR = true;
          out.write(c);
       //si le caractère suivant est différent \n et que le précdédant était un \r
-      } else if(out.toString().length() > 0 && c != '\n' && out.toString().charAt(out.toString().length() - 1) == '\r'){
-         out.write(nbLine + '\t' + (char) c); //indiquer numéro de ligne
+      } else if(c != '\n' && isLastBackslachR){
+         isLastBackslachR = false;
+         out.write(String.valueOf(++nbLine) + '\t' + (char)c); //indiquer numéro de ligne
       } else {
+         isLastBackslachR = false;
          write(String.valueOf((char)c)); //écris normalement
       }
    }
