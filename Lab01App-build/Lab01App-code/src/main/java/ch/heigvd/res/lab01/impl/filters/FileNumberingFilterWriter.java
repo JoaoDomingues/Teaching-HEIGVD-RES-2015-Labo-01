@@ -19,17 +19,17 @@ public class FileNumberingFilterWriter extends FilterWriter {
 
    private static final Logger LOG = Logger.getLogger(FileNumberingFilterWriter.class.getName());
    private int nbLine;
-   private boolean isLastBackslachR = false;
+   private boolean isLastBackslashR = false;
 
    public FileNumberingFilterWriter(Writer out) {
       super(out);
-      
+
    }
 
    @Override
    public void write(String str, int off, int len) throws IOException {
-      String[] tmp = new String[2];
-      tmp[1] = str.substring(off, off + len);
+      String[] lines = new String[2];
+      lines[1] = str.substring(off, off + len);
       String toWrite = "";
 
       //vérifie si c'est la première fois que l'on écrit dans la sortie
@@ -38,11 +38,11 @@ public class FileNumberingFilterWriter extends FilterWriter {
       }
 
       //cherche tout les sauts de ligne
-      while (!(tmp = Utils.getNextLine(tmp[1]))[0].isEmpty()) {
-         toWrite += tmp[0] + String.valueOf(++nbLine) + '\t';
+      while (!(lines = Utils.getNextLine(lines[1]))[0].isEmpty()) {
+         toWrite += lines[0] + String.valueOf(++nbLine) + '\t';
       }
       //ajoute la chaîne restante
-      toWrite += tmp[1];
+      toWrite += lines[1];
 
       out.write(toWrite);
    }
@@ -55,16 +55,16 @@ public class FileNumberingFilterWriter extends FilterWriter {
    @Override
    public void write(int c) throws IOException {
       //laisse un doute quand un \r et rentré, car un \n peut être écris juste aprés
-      if (c == '\r' && !isLastBackslachR) {
-         isLastBackslachR = true;
+      if (c == '\r' && !isLastBackslashR) {
+         isLastBackslashR = true;
          out.write(c);
       //si le caractère suivant est différent \n et que le précdédant était un \r
-      } else if(c != '\n' && isLastBackslachR){
-         isLastBackslachR = false;
-         out.write(String.valueOf(++nbLine) + '\t' + (char)c); //indiquer numéro de ligne
+      } else if (c != '\n' && isLastBackslashR) {
+         isLastBackslashR = false;
+         out.write(String.valueOf(++nbLine) + '\t' + (char) c); //indiquer numéro de ligne
       } else {
-         isLastBackslachR = false;
-         write(String.valueOf((char)c)); //écris normalement
+         isLastBackslashR = false;
+         write(String.valueOf((char) c)); //écris normalement
       }
    }
 }

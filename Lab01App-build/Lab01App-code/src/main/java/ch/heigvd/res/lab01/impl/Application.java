@@ -130,14 +130,17 @@ public class Application implements IApplication {
     */
    void storeQuote(Quote quote, String filename) throws IOException {
       String directory = WORKSPACE_DIRECTORY;
-      //récupere le répertoire où devra se trouver le fichier
+      //récupere le(s) répertoire(s) où devra se trouver le fichier
       for (String tag : quote.getTags()) {
          directory += '/' + tag;
       }
       //crée les répértoire s'il n'existe pas
-      new File(directory).mkdirs();
+      File file = new File(directory);
+      if(!file.exists()){
+         file.mkdirs();
+      }
       //crée le fichier
-      File file = new File(directory + '/' + filename);
+      file = new File(directory + '/' + filename);
       file.createNewFile();
       //écris dans le fichier précédement crée
       Writer writer = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
@@ -161,7 +164,7 @@ public class Application implements IApplication {
              * be pretty easy (we want to write the filename, including the path, to the writer passed in argument).
              */
             try {
-               writer.write(file.getPath().replace('\\', '/') + '\n');
+               writer.write(file.getPath() + '\n');
             } catch (IOException ex) {
                LOG.log(Level.SEVERE, null, ex);
             }
