@@ -136,7 +136,7 @@ public class ApplicationTest {
     sb.append(fileD2);
     sb.append("\n");
     
-    // Bug fix in the original unit test
+    // Bug fix in the original unit test by teacher
     Pattern p = Pattern.compile(File.separator);
     Matcher m = p.matcher(output);
     String outputWithUnixSeparator = m.replaceAll("/");
